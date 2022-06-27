@@ -1,0 +1,60 @@
+@mixin darkenFilled($color) {
+  &[disabled],
+  &[disabled]:hover {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  &:hover {
+    color: $text-color;
+    background-color: darken($color, 2.5%);
+    border-color: darken($color, 2.5%);
+    text-decoration: none;
+  }
+  &:active {
+    background-color: darken($color, 7%);
+    border-color: darken($color, 7%);
+  }
+}
+@mixin darkOutlined($color) {
+  @include darkenFilled($color);
+}
+@mixin addButton($name, $color) {
+  &-#{$name} {
+    background-color: $color;
+    border-color: $color;
+    @include darkenFilled($color);
+  }
+  &-outline-#{$name} {
+    border-color: $color;
+    @include darkOutlined($color);
+  }
+}
+.jb-btn {
+  border-radius: $btn-radius;
+  border-width: 1px;
+  border-style: solid;
+  display: inline-block;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.6875rem;
+  text-align: center;
+  vertical-align: middle;
+  color: $text-color;
+  text-decoration: none;
+  user-select: none;
+  outline: none !important;
+  padding: 0.375rem 0.85rem;
+  transition: all 0.25s ease-in-out;
+  @include addButton(primary, $primary-color);
+  @include addButton(danger, $danger-color);
+}
+.page-btn {
+  border-radius: 0;
+  border-color: transparent;
+  background-color: lighten($background-color, 2.5%);
+  &:hover {
+    color: $text-color;
+    background-color: $primary-color;
+    border-color: $primary-color;
+  }
+}
