@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getMovies } from "../actions/movieActions";
+import { getProjects } from "../actions/movieActions";
 import MovieItem from "./MovieItem";
 import MovieItemLoader from "./MovieItemLoader";
 import search from "../try_search.svg";
@@ -10,12 +10,14 @@ const MovieList = ({
   movies,
   nominations,
   search_param,
-
   loading,
   response,
   error,
   notRequested,
+  response_data,
 }) => {
+  const projects =
+    typeof response_data.projects === "undefined" ? [] : response_data.projects;
   return (
     <>
       <div className="card-heading f-22 f-sm-24 f-md-28 fw-700">
@@ -55,13 +57,11 @@ const MovieList = ({
           </>
         ) : null}
         {/* If not title, if loading, if notloaded, if response not true, else result */}
-        {movies.map((movie) => (
-          <MovieItem
-            key={movie.imdbID}
-            movie={movie}
-            nominations={nominations}
-          />
-        ))}
+        {projects
+          .filter((project) => true || project["score"])
+          .map((project) => (
+            <MovieItem key={project.id} project={project} />
+          ))}
       </ul>
     </>
   );
@@ -74,7 +74,7 @@ MovieList.propTypes = {
   response: PropTypes.string,
   notRequested: PropTypes.bool,
   search_param: PropTypes.string.isRequired,
-  getMovies: PropTypes.func.isRequired,
+  getProjects: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
@@ -86,6 +86,7 @@ const mapStateToProps = (state) => ({
   notRequested: state.movie.search_result.notRequested,
   search_param: state.movie.search_param,
   loading: state.movie.isSearching,
+  response_data: state.movie.search_result,
 });
 
-export default connect(mapStateToProps, { getMovies })(MovieList);
+export default connect(mapStateToProps, { getProjects })(MovieList);

@@ -64,7 +64,7 @@ const MoviePage = ({
           </div>
           <div className="card-content">
             {isFetching ? <MoviePageLoader /> : ""}
-            {Response === "False" ? "Movie Not Found" : null}
+            {Response === "False" ? "Project Not Found" : null}
             {Response === "True" ? (
               <>
                 <div className="f-22 mb-4">

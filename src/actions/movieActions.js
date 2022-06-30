@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-  GET_MOVIES,
+  GET_PROJECTS,
   NOMINATE_MOVIE,
   REMOVE_MOVIE,
   CLEAR_MOVIES,
@@ -8,46 +8,19 @@ import {
   SET_ISSEARCHING,
 } from "./types.js";
 
-export const getMovies = (name, page = 1) => async (dispatch) => {
+export const getProjects = (topic, page = 1) => async (dispatch) => {
   try {
     const res = await axios.get(
-      `https://www.omdbapi.com/?s=${name}&page=${page}&apikey=7f85ed74`
+      `https://projectx-flask.herokuapp.com/projects/search/?topic=${topic}`
     );
-    if (res.data.Response === "True") {
-      const currentPage = /^\d+$/.test(page) ? parseInt(page) : 1;
-      // Previous and Next Params
-      let currentParams = new URLSearchParams(window.location.search);
-      currentParams.set("page", currentPage + 1);
-      const nextParams = currentParams.toString();
-      currentParams.set("page", currentPage - 1);
-      const prevParams = currentParams.toString();
-      // Generating Pagination Object
-      const { totalResults } = res.data,
-        totalPages = Math.ceil(parseInt(totalResults) / 10),
-        hasNext = currentPage < totalPages,
-        hasPrevious = currentPage > 1,
-        paginationData = {
-          currentPage,
-          totalPages,
-          hasPrevious,
-          hasNext,
-          previousPage: hasPrevious ? prevParams : null,
-          nextPage: hasNext ? nextParams : null,
-          startResult: currentPage * 10 - 9,
-          endResult: hasNext ? currentPage * 10 : parseInt(totalResults),
-        };
-
-      res.data = { ...res.data, ...paginationData, movies: res.data.Search };
-    }
-    let result = res.data;
     dispatch({
-      type: GET_MOVIES,
-      payload: result,
+      type: GET_PROJECTS,
+      payload: { Response: "True", projects: res.data },
     });
   } catch (error) {
     // Handle Could not search, Try again
     dispatch({
-      type: GET_MOVIES,
+      type: GET_PROJECTS,
       payload: { Response: "False", notRequested: true },
     });
   }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-  getMovies,
+  getProjects,
   clearMovies,
   setSearchparam,
   setIsSearching,
@@ -10,7 +10,7 @@ import {
 import { useLocation, useHistory } from "react-router-dom";
 
 const SearchBox = ({
-  getMovies,
+  getProjects,
   clearMovies,
   setSearchparam,
   setIsSearching,
@@ -22,7 +22,7 @@ const SearchBox = ({
     handleSubmit = (e) => {
       e.preventDefault();
 
-      history.push(`/search/?s=${encodeURIComponent(currentTitle)}${`&page=`}`);
+      history.push(`/search/?s=${encodeURIComponent(currentTitle)}`);
     };
 
   useEffect(() => {
@@ -34,12 +34,12 @@ const SearchBox = ({
 
     setIsSearching(true);
     searchWord || setIsSearching(false);
-    searchWord && searchWord.length !== 0 && getMovies(searchWord, page);
+    searchWord && searchWord.length !== 0 && getProjects(searchWord, page);
     searchWord && searchWord.length !== 0 && setSearchparam(searchWord);
     return () => {
       clearMovies();
     };
-  }, [location, getMovies, clearMovies, setSearchparam, setIsSearching]);
+  }, [location, getProjects, clearMovies, setSearchparam, setIsSearching]);
   return (
     <form onSubmit={handleSubmit}>
       <div className="d-flex align-items-stretch">
@@ -63,12 +63,12 @@ const SearchBox = ({
 
 SearchBox.propTypes = {
   clearMovies: PropTypes.func.isRequired,
-  getMovies: PropTypes.func.isRequired,
+  getProjects: PropTypes.func.isRequired,
   setSearchparam: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
-  getMovies,
+  getProjects,
   clearMovies,
   setSearchparam,
   setIsSearching,

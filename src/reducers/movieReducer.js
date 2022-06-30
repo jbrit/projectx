@@ -1,5 +1,5 @@
 import {
-  GET_MOVIES,
+  GET_PROJECTS,
   NOMINATE_MOVIE,
   REMOVE_MOVIE,
   CLEAR_MOVIES,
@@ -19,7 +19,7 @@ const initialState = {
 let active_nominations;
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_MOVIES:
+    case GET_PROJECTS:
       return {
         ...state,
         search_result: { ...state.search_result, ...action.payload },
