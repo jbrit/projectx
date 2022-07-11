@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { nominateMovie, removeMovie } from "../actions/movieActions";
 
 const MovieItem = ({ project }) => {
-  const {student, supervisor, topic, year, score} = project;
+  const {student, supervisor, topic, year, score, matric_no} = project;
   return (
     <li className="movie-item">
       <div className="d-flex flex-column justify-content-center">
@@ -16,6 +16,9 @@ const MovieItem = ({ project }) => {
         </div>
         <div className="f-22 mb-3 fw-400">
           <span className="fw-600">Supervisor: </span> {supervisor}
+        </div>
+        <div className="f-22 mb-3 fw-400">
+          <span className="fw-600">Matriculation Number: </span> {matric_no}
         </div>
         Score: {score}
       </div>
